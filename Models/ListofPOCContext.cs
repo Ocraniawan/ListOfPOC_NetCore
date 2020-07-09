@@ -31,8 +31,6 @@ namespace ListofPOC.Models
         {
             modelBuilder.Entity<Book>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.Property(e => e.Description)
                     .HasMaxLength(100)
                     .IsFixedLength();
@@ -52,8 +50,6 @@ namespace ListofPOC.Models
 
             modelBuilder.Entity<Student>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.Property(e => e.Class)
                     .HasMaxLength(5)
                     .IsFixedLength();
