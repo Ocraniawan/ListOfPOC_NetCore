@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ListofPOC.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace ListofPOC.Controllers
 {
@@ -79,7 +80,11 @@ namespace ListofPOC.Controllers
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(Book book)
         {
+            DateTime dateTime = DateTime.Now;
+            book.IsNew = dateTime;
+            //var insert = _context.Book.Add(book);
             _context.Book.Add(book);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBook", new { id = book.Id }, book);

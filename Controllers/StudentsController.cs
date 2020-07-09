@@ -79,6 +79,7 @@ namespace ListofPOC.Controllers
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
+
             _context.Student.Add(student);
             await _context.SaveChangesAsync();
 

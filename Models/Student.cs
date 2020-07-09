@@ -7,7 +7,9 @@ namespace ListofPOC.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Class { get; set; }
+        public int IdClass { get; set; }
         public string Status { get; set; }
+
+        public virtual Class IdClassNavigation { get; set; }
     }
 }
