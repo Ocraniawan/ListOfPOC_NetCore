@@ -31,3 +31,13 @@
 bin
 obj
 config
+.vs/ListofPOC/DesignTimeBuild/.dtbcache.v2
+.vs/ListofPOC/v16/.suo
+ListofPOC.csproj
+ListofPOC.sln
+*.cache
+*.cache
+*.cache
+obj/project.assets.json
+obj/ListofPOC.csproj.nuget.g.props
+.vs/ListofPOC/v16/.suo
