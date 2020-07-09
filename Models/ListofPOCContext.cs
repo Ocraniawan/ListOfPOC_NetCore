@@ -18,15 +18,6 @@ namespace ListofPOC.Models
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Student> Student { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("server=LAPTOP-KPTB5QRE\\SQLEXPRESS;database=ListofPOC;uid=sa;password=password@123;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>(entity =>
