@@ -5,8 +5,10 @@ namespace ListofPOC.Models
 {
     public partial class BookStudent
     {
-        public int Id { get; set; }
-        public int? BookId { get; set; }
-        public int? StudentId { get; set; }
+        public int BookId { get; set; }
+        public Book Book { get; set; }
+
+        public int StudentId { get; set; }
+        public Student Student { get; set; }
     }
 }

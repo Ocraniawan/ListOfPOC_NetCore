@@ -17,23 +17,35 @@ namespace ListofPOC.Models
 
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<BookStudent> BookStudent { get; set; }
-        public virtual DbSet<Class> Class { get; set; }
         public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<Cohive> Cohives { get; set; }
+        public virtual DbSet<Quantum> Quantum { get; set; }
+        public virtual DbSet<Address> Address { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Address>(entity =>
+            {
+                entity.HasKey(a => a.Id);
+                entity.Property(a => a.Address1)
+                    .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Quantum>(entity =>
+            {
+                entity.HasOne<Cohive>(q => q.Cohive)
+                    .WithMany(c => c.Quantum)
+                    .HasForeignKey(q => q.CohiveId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.Property(q => q.Name)
+                    .HasMaxLength(100);
+            });
+
             modelBuilder.Entity<Book>(entity =>
             {
                 entity.Property(e => e.Description)
                     .HasMaxLength(100)
                     .IsFixedLength();
-
-                entity.Property(e => e.IsNew)
-                    .HasColumnName("isNew")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.IsUpdate)
-                    .HasColumnName("isUpdate")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(20)
@@ -42,38 +54,29 @@ namespace ListofPOC.Models
 
             modelBuilder.Entity<BookStudent>(entity =>
             {
-                entity.ToTable("Book_Student");
+                entity.HasKey(bs => new { bs.StudentId, bs.BookId });
 
-                entity.Property(e => e.BookId).HasColumnName("Book_id");
+                entity.HasOne<Student>(bs => bs.Student)
+                    .WithMany(bS => bS.BookStudents)
+                    .HasForeignKey(bs => bs.StudentId);
 
-                entity.Property(e => e.StudentId).HasColumnName("Student_id");
-            });
+                entity.HasOne<Book>(bs => bs.Book)
+                    .WithMany(bS => bS.BookStudents)
+                    .HasForeignKey(bs => bs.BookId);
 
-            modelBuilder.Entity<Class>(entity =>
-            {
-                entity.Property(e => e.Class1)
-                    .HasColumnName("Class")
-                    .HasMaxLength(10)
-                    .IsFixedLength();
             });
 
             modelBuilder.Entity<Student>(entity =>
             {
-                entity.Property(e => e.IdClass).HasColumnName("Id_Class");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsFixedLength();
 
-                entity.Property(e => e.Status)
-                    .HasMaxLength(1)
-                    .IsFixedLength();
+                entity.HasOne<Address>(s => s.Address)
+                    .WithOne(ad => ad.Student)
+                    .HasForeignKey<Address>(ad => ad.StudentId);
 
-                entity.HasOne(d => d.IdClassNavigation)
-                    .WithMany(p => p.Student)
-                    .HasForeignKey(d => d.IdClass)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Student_Class");
             });
 
             OnModelCreatingPartial(modelBuilder);
